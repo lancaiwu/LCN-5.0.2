@@ -1,19 +1,41 @@
-# Distributed Transaction Framework - LCN (5.0.2.RELEASE)
+# 基于 - LCN (5.0.2.RELEASE) 版本开发
 
-[![Maven](https://img.shields.io/badge/endpoint.svg?url=https://bbs.txlcn.org/maven-central)](https://bbs.txlcn.org/maven-list)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/codingapi/tx-lcn/blob/master/LICENSE)
-[![Gitter](https://badges.gitter.im/codingapi/tx-lcn.svg)](https://gitter.im/codingapi/tx-lcn?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+#### 第一步： 执行 sql/init.sql 里面的脚本
 
-## Modules
-1. txlcn-tc: *Distributed Transaction Client*
-2. txlcn-common: *Commons*   
-3. txlcn-logger: *Provide persistent logs to MySQL* 
-4. txlcn-tm: *Distributed Transaction Manager*   
-5. txlcn-txmsg: *Distributed Transaction Message Extensions API*   
-6. txlcn-txmsg-netty: *Distributed Transaction Message Extensions Implementation*  
-7. txlcn-tracing: *Distributed Transaction Tracing*
+#### 第二步：修改 txlcn-tm 模块的 配置文件 application.properties
+```
+spring.application.name=tx-manager
+server.port=7970
 
-## The Authority
-Website: [https://www.txlcn.org](https://www.txlcn.org/en-us/)  
-Statistics: [Leave your company messages](https://github.com/codingapi/tx-lcn/issues/7)  
-QQ：554855843 (Hot) 970071379(Normal)
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/tx-manager?characterEncoding=UTF-8
+spring.datasource.username=root
+spring.datasource.password=123456
+
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.use-generated-keys=true
+
+#tx-lcn.logger.enabled=true
+# TxManager Host Ip
+#tx-lcn.manager.host=127.0.0.1
+# TxClient连接请求端口
+#tx-lcn.manager.port=8070
+# 心跳检测时间(ms)
+#tx-lcn.manager.heart-time=15000
+# 分布式事务执行总时间
+#tx-lcn.manager.dtx-time=30000
+#参数延迟删除时间单位ms
+#tx-lcn.message.netty.attr-delay-time=10000
+#tx-lcn.manager.concurrent-level=128
+# 开启日志
+#tx-lcn.logger.enabled=true
+#logging.level.com.codingapi=debug
+#redis 主机
+#spring.redis.host=127.0.0.1
+#redis 端口
+#spring.redis.port=6379
+#redis 密码
+#spring.redis.password=
+```
+
+
