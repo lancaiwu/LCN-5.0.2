@@ -2,7 +2,17 @@
 
 #### 第一步： 执行 sql/init.sql 里面的脚本
 
-#### 第二步：修改 txlcn-tm 模块的 配置文件 application.properties
+### 第二步 新建 springboot项目，并依赖以下包，并在主类添加@EnableTransactionManagerServer
+```
+<dependency>
+    <groupId>com.codingapi.txlcn</groupId>
+    <artifactId>txlcn-tm</artifactId>
+    <version>5.0.2.RELEASE</version>
+</dependency>
+```
+# 若需要修改源码，第二步不走， 走 第三 步到 第五步，其他不变，否则直接走第二步，然后直接走第六步
+
+#### 第三步：修改 txlcn-tm 模块的 配置文件 application.properties
 ```
 spring.application.name=tx-manager
 server.port=7970
@@ -68,6 +78,18 @@ spring.redis.password=123456qq.!@#QWEE
 ```
 #### 第四步，进入到 txlcn模块，进行 maven 打包 ,获得 tx-manager的 jar 包
 ``` mvn clean  package  -Dmaven.test.skip=true ```
+#### 第五步，新建springboot项目并依赖该 tx-manager的jar，并在主类添加@EnableTransactionManagerServer
+```
+@SpringBootApplication
+@EnableTransactionManagerServer
+public class TransactionManagerApplication {
+
+  public static void main(String[] args) {
+      SpringApplication.run(TransactionManagerApplication.class, args);
+  }
+
+}
+```
 
 #### 第五步,在业务微服务 增加以下 maven 依赖,当然也可以自己修改这个项目的tc源码，再进行打包后依赖打包后的jar
 ```
@@ -80,7 +102,7 @@ spring.redis.password=123456qq.!@#QWEE
    <groupId>com.codingapi.txlcn</groupId>
    <artifactId>txlcn-txmsg-netty</artifactId>
    <version>5.0.2.RELEASE</version>
-   </dependency>
+</dependency>
 ```
 #### 第六步，在业务微服务的application.properties配置文件增加以下配置
 ```
